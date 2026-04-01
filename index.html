@@ -94,27 +94,34 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-window.submitForm = async function(e){
+// ✅ FIXED SUBMIT
+document.querySelector("form").addEventListener("submit", async function(e){
   e.preventDefault();
 
   const data = {
-    name: document.getElementById("name").value,
-    age: document.getElementById("age").value,
-    phone: document.getElementById("phone").value,
-    email: document.getElementById("email").value,
-    skills: document.getElementById("skills").value,
-    about: document.getElementById("about").value,
+    name: document.querySelector("input[placeholder='Full Name']").value,
+    age: document.querySelector("input[placeholder='Age']").value,
+    phone: document.querySelector("input[placeholder='Mobile Number']").value,
+    email: document.querySelector("input[placeholder='Gmail']").value,
+    skills: document.querySelector("input[placeholder='Skills']").value,
+    about: document.querySelector("textarea").value,
+    role: document.querySelector("select:nth-of-type(1)").value,
+    workType: document.querySelector("select:nth-of-type(2)").value,
     time: new Date()
   };
 
   try {
     await addDoc(collection(db, "applications"), data);
-    goTo("success");
+
+    // success page show
+    document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active'));
+    document.getElementById("success").classList.add("active");
+
   } catch(err){
     alert("Error: " + err);
   }
-}
-</script>
+});
+</script>  
 
 </body>
         </html>
