@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rexo Hiring</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{background:linear-gradient(135deg,#020617,#0f172a);color:white;}
+
+.section{display:none;min-height:100vh;padding:20px;}
+.active{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+
+header{position:absolute;top:0;width:100%;display:flex;justify-content:space-between;padding:20px 40px;}
+.logo{font-size:28px;font-weight:bold;color:#38bdf8;}
+.email{font-size:14px;opacity:0.8;}
+
+.hero h1{font-size:3rem;background:linear-gradient(90deg,#38bdf8,#6366f1);-webkit-background-clip:text;color:transparent;}
+.hero p{max-width:700px;margin-top:15px;color:#cbd5f5;}
+
+.btn{margin-top:25px;padding:14px 30px;background:linear-gradient(90deg,#38bdf8,#6366f1);border:none;border-radius:10px;cursor:pointer;color:white;transition:0.3s;}
+.btn:hover{transform:scale(1.05);}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:30px;width:100%;max-width:900px;}
+.card{background:rgba(255,255,255,0.05);padding:25px;border-radius:15px;backdrop-filter:blur(10px);}
+
+form{width:100%;max-width:600px;background:rgba(255,255,255,0.05);padding:30px;border-radius:15px;}
+
+input,select,textarea{width:100%;margin:10px 0;padding:12px;border-radius:8px;border:none;background:#1e293b;color:white;}
+
+.success-box{background:rgba(255,255,255,0.05);padding:40px;border-radius:15px;}
+.success-box h1{color:#22c55e;}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Rexo</div>
+  <div class="email">📩 rexo199@gmail.com</div>
+</header>
+
+<section id="home" class="section active hero">
+  <h1>We Build Creators 🚀</h1>
+  <p>Rexo helps creators grow with editing, coding, and branding.</p>
+  <button class="btn" onclick="goTo('form')">Join Us</button>
+</section>
+
+<section id="form" class="section">
+  <form onsubmit="submitForm(event)">
+    <h2>Apply for Rexo</h2>
+
+    <input id="name" type="text" placeholder="Full Name" required>
+    <input id="age" type="number" placeholder="Age" required>
+    <input id="phone" type="tel" placeholder="Mobile Number" required>
+    <input id="email" type="email" placeholder="Gmail" required>
+
+    <input id="skills" type="text" placeholder="Skills">
+    <textarea id="about" placeholder="What can you do?"></textarea>
+
+    <button class="btn" type="submit">Submit</button>
+  </form>
+</section>
+
+<section id="success" class="section">
+  <div class="success-box">
+    <h1>✅ Application Submitted</h1>
+    <p>We will contact you soon 🚀</p>
+  </div>
+</section>
+
+<script>
+function goTo(page){
+  document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+}
+</script>
+
+<!-- 🔥 FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBssTmpjXfZLKMNcRuNIJuvk5",
+  authDomain: "rexo-98-bb2d7.firebaseapp.com",
+  projectId: "rexo-98-bb2d7",
+  storageBucket: "rexo-98-bb2d7.firebasestorage.app",
+  messagingSenderId: "385975406019",
+  appId: "1:385975406019:web:26a7aade41b66fa8f8c176"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.submitForm = async function(e){
+  e.preventDefault();
+
+  const data = {
+    name: document.getElementById("name").value,
+    age: document.getElementById("age").value,
+    phone: document.getElementById("phone").value,
+    email: document.getElementById("email").value,
+    skills: document.getElementById("skills").value,
+    about: document.getElementById("about").value,
+    time: new Date()
+  };
+
+  try {
+    await addDoc(collection(db, "applications"), data);
+    goTo("success");
+  } catch(err){
+    alert("Error: " + err);
+  }
+}
+</script>
+
+</body>
+                                                          </html>
